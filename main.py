@@ -9,9 +9,10 @@ from tqdm import tqdm
 import time
 
 
-LIMIT_PAGE = 1
-LIMIT_ITEMS = 10
-QUERY = "пальто из натуральной шерсти"
+LIMIT_PAGE = 1  # число отобранных страниц
+LIMIT_ITEMS = 10 # число отобранных товаров
+QUERY = "пальто из натуральной шерсти" # строка запроса
+MAXBASKET = 60  # число обрабатываемых шардов
 
 logging.basicConfig(
     level=logging.INFO,
@@ -32,13 +33,12 @@ headers = {
   'sec-fetch-site': 'same-origin',
   'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 YaBrowser/26.3.0.0 Safari/537.36',
   'x-queryid': 'qid765694092174628686420260330141435',
-  'x-requested-with': 'XMLHttpRequest',
   'x-spa-version': '14.3.2',
   'x-userid': '0'
 }
 
 
-async def get_card( product: Dict[str, Any], max_basket: int = 60, timeout: float = 10.0) -> tuple[Any, int] | None:
+async def get_card( product: Dict[str, Any], max_basket: int = MAXBASKET, timeout: float = 10.0) -> tuple[Any, int] | None:
     """Export card from wildberries"""
     nm_id = product.get("id")
     vol = nm_id // 100000
@@ -161,8 +161,6 @@ async def import_xlsx(items):
 
     df_filtered.to_excel("filtered_catalog.xlsx", index=False)
     df.to_excel("full_catalog.xlsx", index=False)
-    print("[INFO] Сохранено wb_products.csv")
-
 
 async def main():
     items = await export_products_and_cards(QUERY)

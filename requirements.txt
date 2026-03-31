@@ -1,0 +1,6 @@
+aiohttp==3.13.4
+asyncio==4.0.0
+requests==2.33.0
+pandas==3.0.1
+typing==3.7.4.3
+tqdm==4.67.3
